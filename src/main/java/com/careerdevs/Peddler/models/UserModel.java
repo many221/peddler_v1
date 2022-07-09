@@ -1,5 +1,7 @@
 package com.careerdevs.Peddler.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -8,22 +10,24 @@ public class UserModel {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
-    @Column(name = "User_Name", nullable = false, unique = true)
+    @JsonProperty("UserName")
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
-    @Column(name = "Age", nullable = false)
+    @JsonProperty("Age")
+    @Column(name = "age", nullable = false)
     private int age;
 
-    @Column(name = "Gender", nullable = false)
+    @JsonProperty("Gender")
+    @Column(name = "gender", nullable = false)
     private String gender;
 
     //X List of Favorite Vendors
     //X List of Previous Vendors
     //
-
 
     public UserModel() {
 
@@ -51,6 +55,16 @@ public class UserModel {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ", \"userName\":\"" + userName + '"' +
+                ", \"age\":" + age +
+                ", \"gender\":\"" + gender + '"' +
+                '}';
     }
 }
 /* Fields
