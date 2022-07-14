@@ -8,5 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VendorRepo extends CrudRepository<VendorModel, UUID> {
-    public Optional<VendorModel> findByName (String name);
+    Optional<VendorModel> findByVendorName(String vendorName);
+
 }

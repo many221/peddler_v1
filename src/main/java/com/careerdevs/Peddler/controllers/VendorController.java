@@ -50,7 +50,7 @@ public class VendorController {
 
         try {
 
-            return new ResponseEntity<> ( vendorRepo.findByName ( vendorName ),HttpStatus.OK );
+            return new ResponseEntity<> ( vendorRepo.findByVendorName ( vendorName ),HttpStatus.OK );
 
         }catch (Exception e){
 

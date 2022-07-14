@@ -16,8 +16,9 @@ public class VendorModel {
     @Column(name = "Vendor_Name", nullable = false, unique = true)
     private String vendorName;
 
-    @Column(name = "Vendor_Location", nullable = false)
-    private Location location;
+
+//    @Column(name = "Vendor_Location")
+//    private Location location;
 
     //O Menu/Inventory datatype
 
@@ -39,13 +40,13 @@ public class VendorModel {
         this.vendorName = vendorName;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+//    public Location getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(Location location) {
+//        this.location = location;
+//    }
 
     public boolean isOpenClosed() {
         return openClosed;
