@@ -16,6 +16,11 @@ public class VendorModel {
     @Column(name = "Vendor_Name", nullable = false, unique = true)
     private String vendorName;
 
+    private Double log;
+
+    private Double lat;
+
+//I Time Stamp
 
 //    @Column(name = "Vendor_Location")
 //    private Location location;
@@ -47,6 +52,15 @@ public class VendorModel {
 //    public void setLocation(Location location) {
 //        this.location = location;
 //    }
+
+    public void setLocation(double lat, double log){
+        this.lat = lat;
+        this.log = log;
+    }
+    
+    public Location getLocation(){
+        return new Location ( lat,log );
+    }
 
     public boolean isOpenClosed() {
         return openClosed;
