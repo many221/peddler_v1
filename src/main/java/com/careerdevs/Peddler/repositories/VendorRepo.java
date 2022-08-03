@@ -11,5 +11,7 @@ public interface VendorRepo extends CrudRepository<VendorModel, UUID> {
 
     Optional<VendorModel> findByVendorName(String vendorName);
 
+    Optional<VendorModel> findByEmail(String email);
+
     Iterable<VendorModel> findAll();
 }

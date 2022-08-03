@@ -16,6 +16,8 @@ import java.util.*;
 @Service
 public class UserServices {
 
+    //O> Convert list of vendor IDs to vendors
+
     @Autowired
     UserRepo userRepo;
 

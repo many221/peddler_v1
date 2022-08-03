@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UserController {
 
 
-    //Create Read Update Delete
+
 
     @Autowired
     private UserServices services;
@@ -130,7 +130,7 @@ public class UserController {
 
     }
 
-
+    //O> Change id to username
     @GetMapping("{id}/vendors/favorite")
     public ResponseEntity<?> getFavoriteVendors(@PathVariable UUID id, @RequestParam String password){
 

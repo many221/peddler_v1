@@ -1,7 +1,7 @@
 package com.careerdevs.Peddler.models;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -34,7 +34,10 @@ public class UserModel {
     @Column(name = "gender", nullable = false)
     private String gender;
 
+    //O> Figure out relationship mapping between vendor and user
+
     //X List of Favorite Vendors
+
 
     private Set<UUID> favoriteVendors;
 

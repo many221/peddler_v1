@@ -2,6 +2,7 @@ package com.careerdevs.Peddler.controllers;
 
 import com.careerdevs.Peddler.models.VendorModel;
 import com.careerdevs.Peddler.repositories.VendorRepo;
+import com.careerdevs.Peddler.services.VendorServices;
 import com.careerdevs.Peddler.util.ApiError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +16,16 @@ import java.util.UUID;
 @RequestMapping("/api/vendors")
 public class VendorController {
     @Autowired
-    private VendorRepo vendorRepo;
+    private VendorServices services;
 
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody VendorModel newVendor){
 
         try {
 
-            return new ResponseEntity<> ( vendorRepo.save ( newVendor), HttpStatus.CREATED);
+            services.saveVendor ( newVendor );
+
+            return new ResponseEntity<> ( newVendor , HttpStatus.CREATED);
 
         } catch (Exception e){
 
@@ -36,21 +39,7 @@ public class VendorController {
 
         try {
 
-            return new ResponseEntity<> ( vendorRepo.findById ( id ),HttpStatus.OK );
-
-        }catch (Exception e){
-
-            return ApiError.genericApiError ( e );
-
-        }
-    }
-
-    @GetMapping("/userName/{name}")
-    public ResponseEntity<?> getByUserName (@PathVariable String vendorName){
-
-        try {
-
-            return new ResponseEntity<> ( vendorRepo.findByVendorName ( vendorName ),HttpStatus.OK );
+            return new ResponseEntity<> ( services.getById ( id ),HttpStatus.OK );
 
         }catch (Exception e){
 
@@ -59,23 +48,31 @@ public class VendorController {
         }
 
     }
-
 
     @PutMapping("/id/{id}")
     public ResponseEntity<?> updateById (@PathVariable UUID id, @RequestBody VendorModel updatedVendor){
 
         try{
 
-           VendorModel vendor = vendorRepo.findById ( id ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+           VendorModel vendor = services.getById ( id );
 
             if (updatedVendor.getVendorName () != null) {
                 vendor.setVendorName ( updatedVendor.getVendorName () );
             }
-            if (updatedVendor.isOpenClosed () != updatedVendor.isOpenClosed () ) {
-                vendor.setOpenClosed ( updatedVendor.isOpenClosed () );
+
+            if (updatedVendor.getEmail () != null) {
+                vendor.setEmail ( updatedVendor.getVendorName (););
             }
 
-            vendorRepo.save ( vendor );
+            if (updatedVendor.getPassword () != null) {
+                vendor.setPassword ( updatedVendor.getPassword () );
+            }
+
+            if (updatedVendor.getDescription () != null) {
+                vendor.setDescription ( updatedVendor.getDescription () );
+            }
+
+            services.saveVendor ( vendor );
 
             return new ResponseEntity<> ( vendor, HttpStatus.OK );
 
@@ -90,9 +87,9 @@ public class VendorController {
 
         try {
 
-            VendorModel vendor = vendorRepo.findById ( id ).orElseThrow ( () -> new ResponseStatusException ( HttpStatus.NOT_FOUND ) );
+            VendorModel vendor = services.getById ( id ) ;
 
-            vendorRepo.deleteById ( id );
+            services.deleteById ( id );
 
             return new ResponseEntity<> ( "Vendor: " + vendor.getVendorName () + " has been deleted", HttpStatus.OK );
 
@@ -102,4 +99,7 @@ public class VendorController {
 
         }
     }
+
+    @PatchMapping("/email")
+    public ResponseEntity<?> setLocation(@RequestParam String password,)
 }
