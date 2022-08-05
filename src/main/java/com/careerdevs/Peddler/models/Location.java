@@ -1,4 +1,4 @@
-package com.careerdevs.Peddler.util;
+package com.careerdevs.Peddler.models;
 
 public class Location {
 
@@ -35,6 +35,11 @@ public class Location {
     // return string representation of this point
     public String toString() {
         return " (" + latitude + ", " + longitude + ")";
+    }
+
+
+    public static void main(String[] args) {
+//        Location here = new Location (  );
     }
 
 }

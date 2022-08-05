@@ -37,13 +37,13 @@ public class UserModel {
     //O> Figure out relationship mapping between vendor and user
 
     //X List of Favorite Vendors
-
-
-    private Set<UUID> favoriteVendors;
-
-    //X List of Previous Vendors
-
-    private Map<Timestamp, UUID> vendorHistory;
+//
+//
+//    private Set<UUID> favoriteVendors;
+//
+//    //X List of Previous Vendors
+//
+//    private Map<Timestamp, UUID> vendorHistory;
 
     //
 
@@ -79,17 +79,17 @@ public class UserModel {
         this.gender = gender;
     }
 
-    public Set<UUID> getFavoriteVendors() { return favoriteVendors; }
-
-    public void addFavoriteVendors(UUID vendorId) { favoriteVendors.add ( vendorId ); }
-
-    public void removeFavoriteVendor(UUID vendorId) { favoriteVendors.remove ( vendorId ); }
-
-    public Map<Timestamp, UUID> getVendorHistory() { return vendorHistory; }
-
-    public void clearVendorHistory(){ vendorHistory.clear (); }
-
-    public void checkInAtVendor(Timestamp timestamp, UUID vendorId) { vendorHistory.put (timestamp, vendorId ); }
+//    public Set<UUID> getFavoriteVendors() { return favoriteVendors; }
+//
+//    public void addFavoriteVendors(UUID vendorId) { favoriteVendors.add ( vendorId ); }
+//
+//    public void removeFavoriteVendor(UUID vendorId) { favoriteVendors.remove ( vendorId ); }
+//
+//    public Map<Timestamp, UUID> getVendorHistory() { return vendorHistory; }
+//
+//    public void clearVendorHistory(){ vendorHistory.clear (); }
+//
+//    public void checkInAtVendor(Timestamp timestamp, UUID vendorId) { vendorHistory.put (timestamp, vendorId ); }
 
     @Override
     public String toString() {
@@ -99,8 +99,8 @@ public class UserModel {
                 ", \"password\":\"" + password + '"' +
                 ", \"age\":" + age +
                 ", \"gender\":\"" + gender + '"' +
-                ", \"favoriteVendors\":" + favoriteVendors +
-                ", \"vendorHistory\":" + vendorHistory +
+//                ", \"favoriteVendors\":" + favoriteVendors +
+//                ", \"vendorHistory\":" + vendorHistory +
                 '}';
     }
 }

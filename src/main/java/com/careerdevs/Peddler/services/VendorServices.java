@@ -1,13 +1,14 @@
 package com.careerdevs.Peddler.services;
 
-import com.careerdevs.Peddler.models.VendibleModel;
 import com.careerdevs.Peddler.models.VendorModel;
 import com.careerdevs.Peddler.repositories.VendorRepo;
+import com.careerdevs.Peddler.models.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,69 +26,117 @@ public class VendorServices {
 
     }
 
-    public VendorModel getById (UUID id){
+    public VendorModel getById (Long id){
 
         return repo.findById ( id ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ) );
 
     }
 
-    public void deleteById (UUID id){
+    public void deleteById (Long id){
 
         repo.deleteById (id);
 
     }
 
 
-    public void setLocation(String email, String password, Double log, Double lat){
+    public void setLocation( Long id,Double lat, Double log){
 
-        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+        VendorModel vendor = getById ( id );
 
-        if (password.matches ( vendor.getPassword () )){
+//        if (password.matches ( vendor.getPassword () )){
 
             vendor.setLocation (lat,log);
 
-        }
+//        }
 
     }
 
-    public void openClose(String email, String password, Boolean isOpen){
+    public List<VendorModel> getAllVendors (){
 
-        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+        List<VendorModel> list = new ArrayList<> ();
 
-        if (password.matches ( vendor.getPassword () )){
+        repo.findAll ().forEach ( list::add);
 
-            vendor.setOpenClosed ( isOpen );
-
-        }
+        return list;
 
     }
 
+    public List<VendorModel> getVendorsWithinArea (Double lat, Double log){
 
-    public List<?> getInventory (String email, String password){
+        Location location = new Location ( lat,log );
 
-        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+        List<VendorModel> closestVendors = new ArrayList<> ();
 
-        if (password.matches ( vendor.getPassword () )){
+        getAllVendors ().stream ().forEach ( v -> {
 
-            return vendor.getInventory ();
+            Location vLocation = new Location (v.getLat (), v.getLog () );
 
-        }
+                    if (location.distanceTo ( vLocation )  <= 1)
+                        closestVendors.add ( v );
 
-        return null;
+                }
+        );
+
+        return closestVendors;
 
     }
 
-    public List<?>  getSpaceTimeList(String email, String password){
-        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+    public List<VendorModel> getVendorsWithinSpecificArea (Double lat, Double log, Integer area){
 
-        if (password.matches ( vendor.getPassword () )){
+        Location location = new Location ( lat,log );
 
-            return vendor.getSpaceTimeList ();
+        List<VendorModel> closestVendors = new ArrayList<> ();
 
-        }
+        getAllVendors ().stream ().forEach ( v -> {
 
-        return null;
+            Location vLocation = new Location (v.getLat (), v.getLog () );
+
+            if (location.distanceTo ( vLocation )  <= area)
+                closestVendors.add ( v );
+
+                }
+        );
+        return closestVendors;
+
     }
+//    public void openClose(String email, String password, Boolean isOpen){
+//
+//        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+//
+//        if (password.matches ( vendor.getPassword () )){
+//
+//            vendor.setOpenClosed ( isOpen );
+//
+//        }
+//
+//    }
+
+
+//    public List<?> getInventory (String email, String password){
+//
+//        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+//
+//        if (password.matches ( vendor.getPassword () )){
+//
+//            return vendor.getInventory ();
+//
+//        }
+//
+//        return null;
+//
+//    }
+
+//    public List<?>  getSpaceTimeList(String email, String password){
+//        VendorModel vendor = repo.findByEmail ( email ).orElseThrow (() -> new ResponseStatusException ( HttpStatus.NOT_FOUND ));
+//
+//        if (password.matches ( vendor.getPassword () )){
+//
+//            return vendor.getSpaceTimeList ();
+//
+//        }
+//
+//        return null;
+//    }
 
 //    public VendibleModel getVendible (String email, String password, UUID vendibleId){
 //

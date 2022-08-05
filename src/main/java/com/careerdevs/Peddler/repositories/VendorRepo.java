@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface VendorRepo extends CrudRepository<VendorModel, UUID> {
+public interface VendorRepo extends CrudRepository<VendorModel, Long> {
 
     Optional<VendorModel> findByVendorName(String vendorName);
+    ;
+//    Optional<VendorModel> findByEmail(String email);
 
-    Optional<VendorModel> findByEmail(String email);
 
-    Iterable<VendorModel> findAll();
 }

@@ -10,11 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/vendors")
 public class VendorController {
+
     @Autowired
     private VendorServices services;
 
@@ -22,6 +24,12 @@ public class VendorController {
     public ResponseEntity<?> createUser(@RequestBody VendorModel newVendor){
 
         try {
+
+            if (newVendor.getLat () == null )
+                newVendor.setLat ( 0.0 );
+
+            if (newVendor.getLog () == null)
+                newVendor.setLog ( 0.0 );
 
             services.saveVendor ( newVendor );
 
@@ -34,8 +42,22 @@ public class VendorController {
 
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllVendors (){
+
+        try {
+
+            return new ResponseEntity<> ( services.getAllVendors (),HttpStatus.OK );
+
+        }catch (Exception e){
+
+            return ApiError.genericApiError ( e );
+
+        }
+    }
+
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> getByUUID (@PathVariable UUID id){
+    public ResponseEntity<?> getByID (@PathVariable Long id){
 
         try {
 
@@ -50,7 +72,7 @@ public class VendorController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<?> updateById (@PathVariable UUID id, @RequestBody VendorModel updatedVendor){
+    public ResponseEntity<?> updateById (@PathVariable Long id, @RequestBody VendorModel updatedVendor){
 
         try{
 
@@ -60,13 +82,13 @@ public class VendorController {
                 vendor.setVendorName ( updatedVendor.getVendorName () );
             }
 
-            if (updatedVendor.getEmail () != null) {
-                vendor.setEmail ( updatedVendor.getVendorName (););
-            }
-
-            if (updatedVendor.getPassword () != null) {
-                vendor.setPassword ( updatedVendor.getPassword () );
-            }
+//            if (updatedVendor.getEmail () != null) {
+//                vendor.setEmail ( updatedVendor.getVendorName (););
+//            }
+//
+//            if (updatedVendor.getPassword () != null) {
+//                vendor.setPassword ( updatedVendor.getPassword () );
+//            }
 
             if (updatedVendor.getDescription () != null) {
                 vendor.setDescription ( updatedVendor.getDescription () );
@@ -83,7 +105,7 @@ public class VendorController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<?> deleteUserById (@PathVariable UUID id) {
+    public ResponseEntity<?> deleteUserById (@PathVariable Long id) {
 
         try {
 
@@ -100,6 +122,56 @@ public class VendorController {
         }
     }
 
-    @PatchMapping("/email")
-    public ResponseEntity<?> setLocation(@RequestParam String password,)
+    @GetMapping("/nearby")
+    public ResponseEntity<?> getNearbyVendors( @RequestParam Double lat, @RequestParam Double log){
+
+        try {
+
+            List <VendorModel> list = services.getVendorsWithinArea (lat, log );
+
+            return new ResponseEntity<> ( list,HttpStatus.OK  );
+
+        }  catch (Exception e) {
+
+            return ApiError.genericApiError ( e );
+
+        }
+    }
+
+    @GetMapping("/nearby/{area}")
+    public ResponseEntity<?> getNearbyVendors(@PathVariable int area ,@RequestParam Double lat, @RequestParam Double log){
+
+        try {
+
+            List <VendorModel> list = services.getVendorsWithinSpecificArea ( lat, log ,area );
+
+            return new ResponseEntity<> ( list,HttpStatus.OK  );
+
+        }  catch (Exception e) {
+
+            return ApiError.genericApiError ( e );
+
+        }
+    }
+
+    @PutMapping("/id/{id}/location")
+    public ResponseEntity<?> changeVendorLocation(@PathVariable Long id, @RequestParam Double lat, @RequestParam Double log){
+
+        try {
+
+            VendorModel vendor = services.getById ( id );
+
+            vendor.setLocation ( lat ,log );
+
+            services.saveVendor ( vendor );
+
+            return new ResponseEntity<> ( vendor,HttpStatus.OK  );
+
+        }  catch (Exception e) {
+
+            return ApiError.genericApiError ( e );
+
+        }
+    }
+
 }
