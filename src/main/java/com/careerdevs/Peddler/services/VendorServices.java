@@ -81,6 +81,8 @@ public class VendorServices {
 
     }
 
+    //change int to double
+
     public List<VendorModel> getVendorsWithinSpecificArea (Double lat, Double log, Integer area){
 
         Location location = new Location ( lat,log );
