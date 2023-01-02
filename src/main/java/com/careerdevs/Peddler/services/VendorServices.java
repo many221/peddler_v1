@@ -71,6 +71,7 @@ public class VendorServices {
 
             Location vLocation = new Location (v.getLat (), v.getLog () );
 
+
                     if (location.distanceTo ( vLocation )  <= 1)
                         closestVendors.add ( v );
 

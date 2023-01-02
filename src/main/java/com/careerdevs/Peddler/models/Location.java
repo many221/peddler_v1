@@ -1,6 +1,15 @@
 package com.careerdevs.Peddler.models;
 
+import com.careerdevs.Peddler.repositories.VendorRepo;
+import com.careerdevs.Peddler.services.VendorServices;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
 public class Location {
+
+    @Autowired
+    VendorRepo repo;
 
     //X This code is based off of this https://introcs.cs.princeton.edu/java/44st/Location.java.html
     private double longitude;
@@ -38,8 +47,15 @@ public class Location {
     }
 
 
+
+
+
     public static void main(String[] args) {
 //        Location here = new Location (  );
+        VendorServices services = new VendorServices();
+        System.out.println (services.getAllVendors ());
+
+
     }
 
 }

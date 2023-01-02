@@ -10,7 +10,11 @@ import java.util.UUID;
 public interface VendorRepo extends CrudRepository<VendorModel, Long> {
 
     Optional<VendorModel> findByVendorName(String vendorName);
-    ;
+
+    List<VendorModel> findByLog(Double log);
+
+
+
 //    Optional<VendorModel> findByEmail(String email);
 
 
